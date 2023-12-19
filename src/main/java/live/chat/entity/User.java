@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 public class User {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String nickName;
 	
 	private String fullName;

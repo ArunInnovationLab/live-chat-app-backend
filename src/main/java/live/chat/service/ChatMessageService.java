@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import live.chat.entity.ChatMessage;
@@ -12,8 +13,10 @@ import live.chat.repository.ChatMessageRepository;
 @Service
 public class ChatMessageService {
 
+	@Autowired
 	private ChatMessageRepository chatMessageRepository;
 	
+	@Autowired
 	private ChatRoomService chatRoomService;
 	
 	

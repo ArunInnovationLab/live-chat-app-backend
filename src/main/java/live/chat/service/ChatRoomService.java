@@ -2,6 +2,7 @@ package live.chat.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import live.chat.entity.ChatRoom;
@@ -10,7 +11,7 @@ import live.chat.repository.ChatRoomRepository;
 @Service
 public class ChatRoomService {
 	
-	
+	@Autowired
 	private ChatRoomRepository chatRoomRepository ;
 	
 	

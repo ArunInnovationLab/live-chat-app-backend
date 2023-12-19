@@ -12,7 +12,6 @@ import jakarta.persistence.Id;
 public class ChatMessage {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
 	private String chatId;
 	private String senderId;
