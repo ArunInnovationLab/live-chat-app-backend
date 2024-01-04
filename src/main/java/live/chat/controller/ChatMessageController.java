@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,32 +16,50 @@ import live.chat.entity.ChatMessage;
 import live.chat.entity.ChatNotification;
 import live.chat.service.ChatMessageService;
 
-
+@CrossOrigin(origins = "*")
 @Controller
 public class ChatMessageController {
 
+	@Autowired
 	private SimpMessagingTemplate messagingTemplate;
-	
+
 	@Autowired
 	private ChatMessageService chatMessageService;
-	
+
+//	@MessageMapping("/chat")
+//	public void processMessage(@Payload ChatMessage chatMessage) {
+//		System.out.println("processing message.................");
+//
+//		ChatMessage savedMessage = chatMessageService.save(chatMessage);
+//		messagingTemplate.convertAndSendToUser(chatMessage.getRecipientId(), "/queue/messages",
+//				new ChatNotification(savedMessage.getId(), savedMessage.getSenderId(), savedMessage.getRecipientId(),
+//						savedMessage.getContent()
+//
+//				));
+//
+//	}
 	
 	@MessageMapping("/chat")
 	public void processMessage(@Payload ChatMessage chatMessage) {
-		
-		ChatMessage savedMessage = chatMessageService.save(chatMessage);
-		messagingTemplate.convertAndSendToUser(chatMessage.getRecipientId(),"/queue/message", new ChatNotification(savedMessage.getId(), savedMessage.getSenderId(), savedMessage.getRecipientId(), savedMessage.getContent()));
-		
+	    System.out.println("processing message.................");
+
+	    ChatMessage savedMessage = chatMessageService.save(chatMessage);
+
+	    String recipientId = chatMessage.getRecipientId();
+	    String destination = "/queue/messages";
+	    System.out.println("Sending notification to user " + recipientId + " on destination " + destination);
+
+	    messagingTemplate.convertAndSendToUser(recipientId, destination, new ChatNotification(
+	            savedMessage.getId(), savedMessage.getSenderId(), savedMessage.getRecipientId(),
+	            savedMessage.getContent()
+	    ));
 	}
-	
-	
-	
+
+
 	@GetMapping("/messages/{senderId}/{recipientId}")
-	public ResponseEntity<List<ChatMessage>> getMethodName(@PathVariable String senderId, @PathVariable String recipientId) {
-		
+	public ResponseEntity<List<ChatMessage>> getMethodName(@PathVariable String senderId,
+			@PathVariable String recipientId) {
 		return ResponseEntity.ok(chatMessageService.findChatMessages(senderId, recipientId));
 	}
-	
-	
-	
+
 }

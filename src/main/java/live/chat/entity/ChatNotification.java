@@ -1,28 +1,17 @@
 package live.chat.entity;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class ChatNotification {
 
-
-	@Id
-	private String id;
-	
+	private Integer id;
 	private String senderId;
-	
 	private String recipientId;
-	
 	private String content;
 
-	
-	
-	public ChatNotification(String id, String senderId, String recipientId, String content) {
-		super();
+	public ChatNotification() {
+		// No-argument constructor
+	}
+
+	public ChatNotification(Integer id, String senderId, String recipientId, String content) {
 		this.id = id;
 		this.senderId = senderId;
 		this.recipientId = recipientId;
@@ -30,21 +19,16 @@ public class ChatNotification {
 	}
 
 	public ChatNotification(String senderId, String recipientId, String content) {
-		super();
 		this.senderId = senderId;
 		this.recipientId = recipientId;
 		this.content = content;
 	}
 
-	public ChatNotification() {
-		super();
-	}
-
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -71,8 +55,36 @@ public class ChatNotification {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
-	
-	
+
+	// Builder
+	public static class Builder {
+		private Integer id;
+		private String senderId;
+		private String recipientId;
+		private String content;
+
+		public Builder id(Integer id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder senderId(String senderId) {
+			this.senderId = senderId;
+			return this;
+		}
+
+		public Builder recipientId(String recipientId) {
+			this.recipientId = recipientId;
+			return this;
+		}
+
+		public Builder content(String content) {
+			this.content = content;
+			return this;
+		}
+
+		public ChatNotification build() {
+			return new ChatNotification(id, senderId, recipientId, content);
+		}
+	}
 }

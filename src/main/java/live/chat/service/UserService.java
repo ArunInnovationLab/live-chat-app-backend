@@ -33,7 +33,8 @@ public class UserService {
 	public void disconnectUser(User user) {
 		
 		User storedUser = userRepository.findById(user.getNickName()).orElse(null);
-		
+//		User storedUser = userRepository.findByNickName(user.getNickName()).orElse(null);
+
 		if(storedUser != null) {
 			
 			storedUser.setStatus(Status.OFFLINE);

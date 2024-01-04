@@ -15,28 +15,28 @@ public class ChatMessageService {
 
 	@Autowired
 	private ChatMessageRepository chatMessageRepository;
-	
+
 	@Autowired
 	private ChatRoomService chatRoomService;
+
 	
-	
-	
+
 	public ChatMessage save(ChatMessage chatMessage) {
-		
+
 		var chatId = chatRoomService.getChatRoomId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true)
-				.orElseThrow(()-> new NoSuchElementException("Chat room not found"));
-		
+				.orElseThrow(() -> new NoSuchElementException("Chat room not found"));
+
 		chatMessage.setChatId(chatId);
 		chatMessageRepository.save(chatMessage);
-		
+
 		return chatMessage;
 	}
-	
-	
-	public List<ChatMessage> findChatMessages(String senderId, String recipientId){
-		
+
+	public List<ChatMessage> findChatMessages(String senderId, String recipientId) {
+
 		var chatId = chatRoomService.getChatRoomId(senderId, recipientId, false);
-		
+
 		return chatId.map(chatMessageRepository::findAllMessagesByChatId).orElse(new ArrayList<>());
+
 	}
 }
