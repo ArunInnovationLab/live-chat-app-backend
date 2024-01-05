@@ -8,9 +8,6 @@ import jakarta.persistence.Id;
 @Entity
 public class User {
 
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Integer id;
-
 	@Id
 	private String nickName;
 
@@ -21,7 +18,6 @@ public class User {
 
 	public User(String nickName, String fullName, Status status) {
 		super();
-//		this.id = id;
 		this.nickName = nickName;
 		this.fullName = fullName;
 		this.status = status;
@@ -30,14 +26,6 @@ public class User {
 	public User() {
 		super();
 	}
-
-//	public Integer getId() {
-//		return id;
-//	}
-//
-//	public void setId(Integer id) {
-//		this.id = id;
-//	}
 
 	public String getNickName() {
 		return nickName;

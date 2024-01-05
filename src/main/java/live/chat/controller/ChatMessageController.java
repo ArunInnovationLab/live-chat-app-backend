@@ -26,38 +26,23 @@ public class ChatMessageController {
 	@Autowired
 	private ChatMessageService chatMessageService;
 
-//	@MessageMapping("/chat")
-//	public void processMessage(@Payload ChatMessage chatMessage) {
-//		System.out.println("processing message.................");
-//
-//		ChatMessage savedMessage = chatMessageService.save(chatMessage);
-//		messagingTemplate.convertAndSendToUser(chatMessage.getRecipientId(), "/queue/messages",
-//				new ChatNotification(savedMessage.getId(), savedMessage.getSenderId(), savedMessage.getRecipientId(),
-//						savedMessage.getContent()
-//
-//				));
-//
-//	}
-	
 	@MessageMapping("/chat")
 	public void processMessage(@Payload ChatMessage chatMessage) {
-	    System.out.println("processing message.................");
+		System.out.println("processing message.................");
 
-	    ChatMessage savedMessage = chatMessageService.save(chatMessage);
+		ChatMessage savedMessage = chatMessageService.save(chatMessage);
 
-	    String recipientId = chatMessage.getRecipientId();
-	    String destination = "/queue/messages";
-	    System.out.println("Sending notification to user " + recipientId + " on destination " + destination);
+		String recipientId = chatMessage.getRecipientId();
+		String destination = "/queue/messages";
+		System.out.println("Sending notification to user " + recipientId + " on destination " + destination);
 
-	    messagingTemplate.convertAndSendToUser(recipientId, destination, new ChatNotification(
-	            savedMessage.getId(), savedMessage.getSenderId(), savedMessage.getRecipientId(),
-	            savedMessage.getContent()
-	    ));
+		messagingTemplate.convertAndSendToUser(recipientId, destination,
+				new ChatNotification(savedMessage.getId(), savedMessage.getSenderId(), savedMessage.getRecipientId(),
+						savedMessage.getContent(), savedMessage.getTimestamp()));
 	}
 
-
 	@GetMapping("/messages/{senderId}/{recipientId}")
-	public ResponseEntity<List<ChatMessage>> getMethodName(@PathVariable String senderId,
+	public ResponseEntity<List<ChatMessage>> getChatMessages(@PathVariable String senderId,
 			@PathVariable String recipientId) {
 		return ResponseEntity.ok(chatMessageService.findChatMessages(senderId, recipientId));
 	}

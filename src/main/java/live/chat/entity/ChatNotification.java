@@ -1,27 +1,40 @@
 package live.chat.entity;
 
+import java.util.Date;
+
 public class ChatNotification {
 
 	private Integer id;
 	private String senderId;
 	private String recipientId;
 	private String content;
+	private Date timestamp;
 
 	public ChatNotification() {
 		// No-argument constructor
 	}
 
-	public ChatNotification(Integer id, String senderId, String recipientId, String content) {
+	public ChatNotification(Integer id, String senderId, String recipientId, String content, Date timestamp) {
 		this.id = id;
 		this.senderId = senderId;
 		this.recipientId = recipientId;
 		this.content = content;
+		this.timestamp = timestamp;
 	}
 
-	public ChatNotification(String senderId, String recipientId, String content) {
+	public ChatNotification(String senderId, String recipientId, String content, Date timestamp) {
 		this.senderId = senderId;
 		this.recipientId = recipientId;
 		this.content = content;
+		this.timestamp = timestamp;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public Integer getId() {
@@ -62,6 +75,7 @@ public class ChatNotification {
 		private String senderId;
 		private String recipientId;
 		private String content;
+		private Date timestamp;
 
 		public Builder id(Integer id) {
 			this.id = id;
@@ -83,8 +97,13 @@ public class ChatNotification {
 			return this;
 		}
 
+		public Builder timestamp(Date timestamp) {
+			this.timestamp = timestamp;
+			return this;
+		}
+
 		public ChatNotification build() {
-			return new ChatNotification(id, senderId, recipientId, content);
+			return new ChatNotification(id, senderId, recipientId, content, timestamp);
 		}
 	}
 }

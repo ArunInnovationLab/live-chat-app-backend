@@ -1,7 +1,5 @@
 package live.chat.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +10,7 @@ public class ChatRoom {
 
 	@Id
 	@org.springframework.data.annotation.Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	private String chatId;

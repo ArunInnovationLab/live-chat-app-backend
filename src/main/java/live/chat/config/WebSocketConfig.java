@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -25,7 +25,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 
 	@Override
 	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
-		
+
 		DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
 		resolver.setDefaultMimeType(MimeTypeUtils.APPLICATION_JSON);
 		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
@@ -42,6 +42,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 		registry.setUserDestinationPrefix("/user");
 	}
 
-	
-	
 }

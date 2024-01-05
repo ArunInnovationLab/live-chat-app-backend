@@ -13,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
-
 import live.chat.entity.User;
 import live.chat.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,56 +23,43 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	@Autowired
-	private UserService userService ;
+	private UserService userService;
 
-	
 	public UserController(UserService userService) {
 		super();
 		this.userService = userService;
 	}
 
-
-//	@MessageMapping("/user.addUser")
-//    @SendTo("/user/public")
-//	public User addUser(@Payload User user) {
-//		System.out.println("adding usr");
-//		userService.saveUser(user);
-//		return user;
-//	}
-//	
-	
 	@Autowired
-    private SimpMessagingTemplate messagingTemplate;
-	
+	private SimpMessagingTemplate messagingTemplate;
+
 	@MessageMapping("/user.addUser")
 	public void addUser(@Payload User user, SimpMessageHeaderAccessor headerAccessor) {
-	   
-	    userService.saveUser(user);
 
-	    String userId = user.getNickName();  
-	    String destination = "/user/" + userId + "/topic";
+		userService.saveUser(user);
 
-	    System.out.println("Sending message to destination: " + destination);
-	    System.out.println("Message content: " + user.toString());
-	    messagingTemplate.convertAndSend(destination, user);
+		String userId = user.getNickName();
+		String destination = "/user/" + userId + "/topic";
 
-	    System.out.println("adding usrrrrrrrrrrrrrr");
-	    	    
+		System.out.println("Sending message to destination: " + destination);
+		System.out.println("Message content: " + user.toString());
+		messagingTemplate.convertAndSend(destination, user);
+
+		System.out.println("adding usrrrrrrrrrrrrrr");
+
 	}
 
-	
-	
 	@MessageMapping("/user.disconnectUser")
-    @SendTo("/user/public")
+	@SendTo("/user/public")
 	public User disconnect(@Payload User user) {
 		userService.disconnectUser(user);
-		return user;		
+		return user;
 	}
-	
+
 	@GetMapping("/users")
-	public ResponseEntity<List<User>> findConnectedUsers(){
+	public ResponseEntity<List<User>> findConnectedUsers() {
 		System.out.println("fetching users");
 		return ResponseEntity.ok(userService.findConnectedUsers());
-		
+
 	}
 }

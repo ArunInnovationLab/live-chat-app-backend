@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import live.chat.entity.ChatRoom;
 
 @Repository
-public interface ChatRoomRepository extends JpaRepository<ChatRoom, String> {
+public interface ChatRoomRepository extends JpaRepository<ChatRoom, Integer> {
 
 	Optional<ChatRoom> findBySenderIdAndRecipientId(String senderId, String recipientId);
 }
